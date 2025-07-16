@@ -1,6 +1,8 @@
 'use client';
 
+import { eq } from 'lodash';
 import { ChangeEvent, FormEvent, useState } from 'react';
+import { z } from 'zod';
 
 import Button from '@/components/Button.component';
 import FormGroup from '@/components/FormGroup.component';
@@ -8,22 +10,43 @@ import RadioButton from '@/components/RadioButton.component';
 import RadioButtonGroup from '@/components/RadioButtonGroup.component';
 import TextArea from '@/components/TextArea.component';
 import TextField from '@/components/TextField.component';
-import IFormData from '@/model/interfaces/IFormData.interface';
-import { eq } from 'lodash';
+import QueryType from '@/model/types/QueryType.type';
+
+const FormData = z.object({
+	email: z.email(),
+	firstName: z.string().trim().min(1),
+	lastName: z.string().trim().min(1),
+	message: z.string().trim().min(1),
+
+	queryType: z.literal(['general-enquiry', 'support-request'] as QueryType[]),
+});
+
+type FormData = z.infer<typeof FormData>;
+
+const initialState: FormData = {
+	email: '',
+	firstName: '',
+	lastName: '',
+	message: '',
+	queryType: 'general-enquiry',
+};
 
 const ContactForm = () => {
-	const [formData, setFormData] = useState<IFormData>({
-		email: '',
-		firstName: '',
-		lastName: '',
-		message: '',
-		queryType: 'general-enquiry',
-	});
+	const [formData, setFormData] = useState<FormData>(initialState);
 
 	const handleSubmit = (event: FormEvent) => {
 		event.preventDefault();
 
-		alert(JSON.stringify(formData));
+		try {
+			FormData.parse(formData);
+
+			alert(JSON.stringify(formData));
+			setFormData(initialState);
+		} catch (error) {
+			if (error instanceof z.ZodError) {
+				console.log(error.issues);
+			}
+		}
 	};
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

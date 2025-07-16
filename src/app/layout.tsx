@@ -14,7 +14,7 @@ interface ILayoutProps {
 const Layout: FC<ILayoutProps> = ({ children }) => {
 	return (
 		<html className='overflow-hidden bg-green-200'>
-			<body className='font-karla flex h-screen flex-col antialiased'>{children}</body>
+			<body className='font-karla flex h-dvh flex-col antialiased'>{children}</body>
 		</html>
 	);
 };

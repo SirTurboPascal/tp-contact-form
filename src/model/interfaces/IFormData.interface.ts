@@ -3,6 +3,7 @@ interface IFormData {
 	firstName: string;
 	lastName: string;
 	message: string;
+	queryType: string;
 }
 
 export default IFormData;

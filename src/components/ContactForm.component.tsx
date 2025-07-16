@@ -4,9 +4,12 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 
 import Button from '@/components/Button.component';
 import FormGroup from '@/components/FormGroup.component';
+import RadioButton from '@/components/RadioButton.component';
+import RadioButtonGroup from '@/components/RadioButtonGroup.component';
 import TextArea from '@/components/TextArea.component';
 import TextField from '@/components/TextField.component';
 import IFormData from '@/model/interfaces/IFormData.interface';
+import { eq } from 'lodash';
 
 const ContactForm = () => {
 	const [formData, setFormData] = useState<IFormData>({
@@ -14,6 +17,7 @@ const ContactForm = () => {
 		firstName: '',
 		lastName: '',
 		message: '',
+		queryType: 'general-enquiry',
 	});
 
 	const handleSubmit = (event: FormEvent) => {
@@ -40,6 +44,11 @@ const ContactForm = () => {
 			<FormGroup>
 				<TextField label='Email Address' name='email' onChange={handleInputChange} value={formData.email} />
 			</FormGroup>
+
+			<RadioButtonGroup label='Query Type'>
+				<RadioButton checked={eq(formData.queryType, 'general-enquiry')} label='General Enquiry' name='queryType' onChange={handleInputChange} value='general-enquiry' />
+				<RadioButton checked={eq(formData.queryType, 'support-request')} label='Support Request' name='queryType' onChange={handleInputChange} value='support-request' />
+			</RadioButtonGroup>
 
 			<FormGroup>
 				<TextArea label='Message' name='message' onChange={handleInputChange} value={formData.message} />

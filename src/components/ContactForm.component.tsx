@@ -3,6 +3,7 @@
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 import FormGroup from '@/components/FormGroup.component';
+import TextArea from '@/components/TextArea.component';
 import TextField from '@/components/TextField.component';
 
 const ContactForm = () => {
@@ -10,6 +11,7 @@ const ContactForm = () => {
 		email: '',
 		firstName: '',
 		lastName: '',
+		message: '',
 	});
 
 	const handleSubmit = (event: FormEvent) => {
@@ -18,7 +20,7 @@ const ContactForm = () => {
 		alert(JSON.stringify(formData));
 	};
 
-	const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+	const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		setFormData({
 			...formData,
 
@@ -37,8 +39,12 @@ const ContactForm = () => {
 				<TextField label='Email Address' name='email' onChange={handleInputChange} value={formData.email} />
 			</FormGroup>
 
+			<FormGroup>
+				<TextArea label='Message' name='message' onChange={handleInputChange} value={formData.message} />
+			</FormGroup>
+
 			<button
-				className='mt-[16px] flex h-[48px] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-green-600 font-bold tracking-[-0.4px] text-white focus:outline-none'
+				className='mt-[16px] flex h-[48px] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-green-600 font-bold tracking-[-0.4px] text-white select-none focus:outline-none'
 				type='submit'
 			>
 				Submit

@@ -9,7 +9,7 @@ interface IButtonProps {
 
 const Button: FC<IButtonProps> = ({ children, type }) => {
 	return (
-		<button className='mt-[16px] h-[48px] cursor-pointer rounded-[8px] bg-green-600 font-bold tracking-[-0.4px] text-white select-none focus:outline-none' type={type}>
+		<button className='h-[48px] cursor-pointer rounded-[8px] bg-green-600 font-bold tracking-[-0.4px] text-white select-none focus:outline-none' type={type}>
 			{children}
 		</button>
 	);

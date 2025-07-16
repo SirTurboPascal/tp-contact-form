@@ -5,6 +5,7 @@ import { ChangeEvent, FormEvent, useState } from 'react';
 import { z } from 'zod';
 
 import Button from '@/components/Button.component';
+import CheckBox from '@/components/CheckBox.component';
 import FormGroup from '@/components/FormGroup.component';
 import RadioButton from '@/components/RadioButton.component';
 import RadioButtonGroup from '@/components/RadioButtonGroup.component';
@@ -13,10 +14,12 @@ import TextField from '@/components/TextField.component';
 import QueryType from '@/model/types/QueryType.type';
 
 const FormData = z.object({
-	email: z.email(),
-	firstName: z.string().trim().min(1),
-	lastName: z.string().trim().min(1),
-	message: z.string().trim().min(1),
+	consent: z.literal<boolean>(true, 'To submit this form, please consent to being contacted'),
+
+	email: z.email('Please enter a valid email address'),
+	firstName: z.string().trim().min(1, 'This field is required'),
+	lastName: z.string().trim().min(1, 'This field is required'),
+	message: z.string().trim().min(1, 'This field is required'),
 
 	queryType: z.literal(['general-enquiry', 'support-request'] as QueryType[]),
 });
@@ -24,6 +27,8 @@ const FormData = z.object({
 type FormData = z.infer<typeof FormData>;
 
 const initialState: FormData = {
+	consent: false,
+
 	email: '',
 	firstName: '',
 	lastName: '',
@@ -31,8 +36,11 @@ const initialState: FormData = {
 	queryType: 'general-enquiry',
 };
 
+type FormErrors = Partial<Record<keyof FormData, string>>;
+
 const ContactForm = () => {
 	const [formData, setFormData] = useState<FormData>(initialState);
+	const [formErrors, setFormErrors] = useState<FormErrors>({});
 
 	const handleSubmit = (event: FormEvent) => {
 		event.preventDefault();
@@ -44,9 +52,23 @@ const ContactForm = () => {
 			setFormData(initialState);
 		} catch (error) {
 			if (error instanceof z.ZodError) {
-				console.log(error.issues);
+				const errors: Partial<Record<keyof FormData, string>> = {};
+
+				error.issues.forEach((issue) => {
+					errors[issue.path[0] as keyof FormData] = issue.message;
+				});
+
+				setFormErrors(errors);
 			}
 		}
+	};
+
+	const handleCheckBoxChange = (event: ChangeEvent<HTMLInputElement>) => {
+		setFormData({
+			...formData,
+
+			[event.target.name]: event.target.checked,
+		});
 	};
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -60,12 +82,12 @@ const ContactForm = () => {
 	return (
 		<form className='flex flex-col gap-4' onSubmit={handleSubmit}>
 			<FormGroup>
-				<TextField label='First Name' name='firstName' onChange={handleInputChange} value={formData.firstName} />
-				<TextField label='Last Name' name='lastName' onChange={handleInputChange} value={formData.lastName} />
+				<TextField error={formErrors.firstName} label='First Name' name='firstName' onChange={handleInputChange} value={formData.firstName} />
+				<TextField error={formErrors.lastName} label='Last Name' name='lastName' onChange={handleInputChange} value={formData.lastName} />
 			</FormGroup>
 
 			<FormGroup>
-				<TextField label='Email Address' name='email' onChange={handleInputChange} value={formData.email} />
+				<TextField error={formErrors.email} label='Email Address' name='email' onChange={handleInputChange} value={formData.email} />
 			</FormGroup>
 
 			<RadioButtonGroup label='Query Type'>
@@ -74,8 +96,10 @@ const ContactForm = () => {
 			</RadioButtonGroup>
 
 			<FormGroup>
-				<TextArea label='Message' name='message' onChange={handleInputChange} value={formData.message} />
+				<TextArea error={formErrors.message} label='Message' name='message' onChange={handleInputChange} value={formData.message} />
 			</FormGroup>
+
+			<CheckBox error={formErrors.consent} checked={formData.consent} label='I consent to being contacted by the team' name='consent' onChange={handleCheckBoxChange} />
 
 			<Button type='submit'>Submit</Button>
 		</form>

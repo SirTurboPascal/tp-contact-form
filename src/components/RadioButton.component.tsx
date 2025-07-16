@@ -22,7 +22,15 @@ const RadioButton: FC<IRadioButtonProps> = ({ checked, label, name, onChange, va
 
 	return (
 		<label className='border-grey-900 relative flex h-[48px] grow cursor-pointer flex-row items-center rounded-[8px] border-[1px] px-[8px]' htmlFor={id}>
-			<input id={id} className='mr-[8px] cursor-pointer' checked={checked} name={name} onChange={handleChange} type='radio' value={value} />
+			<input
+				id={id}
+				className='mr-[8px] size-[18px] cursor-pointer bg-cover bg-center bg-no-repeat checked:appearance-none checked:bg-[url(/images/icon-radio-selected.svg)]'
+				checked={checked}
+				name={name}
+				onChange={handleChange}
+				type='radio'
+				value={value}
+			/>
 
 			<Fragment>{label}</Fragment>
 		</label>

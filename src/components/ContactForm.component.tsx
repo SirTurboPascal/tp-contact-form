@@ -2,12 +2,14 @@
 
 import { ChangeEvent, FormEvent, useState } from 'react';
 
+import Button from '@/components/Button.component';
 import FormGroup from '@/components/FormGroup.component';
 import TextArea from '@/components/TextArea.component';
 import TextField from '@/components/TextField.component';
+import IFormData from '@/model/interfaces/IFormData.interface';
 
 const ContactForm = () => {
-	const [formData, setFormData] = useState({
+	const [formData, setFormData] = useState<IFormData>({
 		email: '',
 		firstName: '',
 		lastName: '',
@@ -43,12 +45,7 @@ const ContactForm = () => {
 				<TextArea label='Message' name='message' onChange={handleInputChange} value={formData.message} />
 			</FormGroup>
 
-			<button
-				className='mt-[16px] flex h-[48px] cursor-pointer flex-row items-center justify-center rounded-[8px] bg-green-600 font-bold tracking-[-0.4px] text-white select-none focus:outline-none'
-				type='submit'
-			>
-				Submit
-			</button>
+			<Button type='submit'>Submit</Button>
 		</form>
 	);
 };

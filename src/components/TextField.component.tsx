@@ -1,3 +1,4 @@
+import { lowerCase } from 'lodash';
 import { ChangeEvent, FC } from 'react';
 
 interface ITextFieldProps {
@@ -11,6 +12,8 @@ interface ITextFieldProps {
 }
 
 const TextField: FC<ITextFieldProps> = ({ label, name, onChange, required, value }) => {
+	const placeholder = `Enter ${lowerCase(label)}...`;
+
 	return (
 		<div className='flex grow flex-col'>
 			<label className='text-grey-900 mb-[4px] shrink-0 pl-[4px] text-[14px] tracking-[-0.4px] select-none' htmlFor={name}>
@@ -22,6 +25,7 @@ const TextField: FC<ITextFieldProps> = ({ label, name, onChange, required, value
 				id={name}
 				name={name}
 				onChange={onChange}
+				placeholder={placeholder}
 				required={required}
 				type='text'
 				value={value}

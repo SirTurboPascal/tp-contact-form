@@ -5,7 +5,7 @@ import Typography from '@/components/Typography.variant';
 
 const Page = () => {
 	return (
-		<div className='flex grow flex-col items-center justify-center'>
+		<div className='flex grow flex-col items-center gap-4 overflow-y-auto py-[32px]'>
 			<Card>
 				<CardTitle>
 					<Typography variant='card-title'>Contact Us</Typography>

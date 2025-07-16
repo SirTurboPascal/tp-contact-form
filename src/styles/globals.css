@@ -1,0 +1,34 @@
+@import 'tailwindcss';
+
+@font-face {
+	font-family: 'Karla';
+	font-style: normal;
+	font-weight: 400;
+
+	src: url('/fonts/Karla/Karla-Regular.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'Karla';
+	font-style: normal;
+	font-weight: 700;
+
+	src: url('/fonts/Karla/Karla-Bold.ttf') format('truetype');
+}
+
+@theme {
+	--breakpoint-*: initial;
+	--breakpoint-desktop: 1440px;
+	--breakpoint-mobile: 375px;
+
+	--font-*: initial;
+	--font-karla: 'Karla', sans-serif;
+
+	--color-*: initial;
+	--color-green-200: hsl(148, 38%, 91%);
+	--color-green-600: hsl(169, 82%, 27%);
+	--color-grey-500: hsl(186, 15%, 59%);
+	--color-grey-900: hsl(187, 24%, 22%);
+	--color-red: hsl(0, 66%, 54%);
+	--color-white: hsl(0, 0%, 100%);
+}

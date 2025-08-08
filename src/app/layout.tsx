@@ -14,7 +14,7 @@ type Props = {
 export default function ({ children }: Props) {
 	return (
 		<html className='bg-green-200'>
-			<body className='h-dvh'>{children}</body>
+			<body className='h-dvh py-400 md:py-1600'>{children}</body>
 		</html>
 	);
 }

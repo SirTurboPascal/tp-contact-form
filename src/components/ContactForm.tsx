@@ -1,10 +1,12 @@
 'use client';
 
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, FormEvent, useState } from 'react';
 
+import Button from '@/components/Button';
 import FormGroup from '@/components/FormGroup';
 import TextField from '@/components/TextField';
 
+import { ContactFormSchema } from '@/model/schemas/ContactFormSchema';
 import { ContactFormData } from '@/model/types/ContactFormData';
 
 const initialContactFormData: ContactFormData = {
@@ -26,8 +28,18 @@ export default function () {
 		});
 	};
 
-	const handleSubmit = () => {
-		console.log(contactFormData);
+	const handleSubmit = (event: FormEvent) => {
+		event.preventDefault();
+
+		try {
+			ContactFormSchema.parse(contactFormData);
+
+			console.log(contactFormData);
+		} catch (error) {
+			console.error(error);
+		} finally {
+			setContactFormData(initialContactFormData);
+		}
 	};
 
 	return (
@@ -40,6 +52,8 @@ export default function () {
 			<FormGroup>
 				<TextField id='email' label='Email Address' name='email' onChange={handleTextFieldChange} type='email' value={contactFormData.email} required />
 			</FormGroup>
+
+			<Button type='submit'>Submit</Button>
 		</form>
 	);
 }

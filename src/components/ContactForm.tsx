@@ -8,17 +8,19 @@ import TextField from '@/components/TextField';
 
 import { ContactFormSchema } from '@/model/schemas/ContactFormSchema';
 import { ContactFormData } from '@/model/types/ContactFormData';
+import TextArea from './TextArea';
 
 const initialContactFormData: ContactFormData = {
 	email: '',
 	firstName: '',
 	lastName: '',
+	message: '',
 };
 
 export default function () {
 	const [contactFormData, setContactFormData] = useState<ContactFormData>(initialContactFormData);
 
-	const handleTextFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
+	const handleTextFieldChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const { name, value } = event.target;
 
 		setContactFormData({
@@ -51,6 +53,10 @@ export default function () {
 
 			<FormGroup>
 				<TextField id='email' label='Email Address' name='email' onChange={handleTextFieldChange} type='email' value={contactFormData.email} required />
+			</FormGroup>
+
+			<FormGroup>
+				<TextArea id='message' label='Message' name='message' onChange={handleTextFieldChange} value={contactFormData.message} required />
 			</FormGroup>
 
 			<Button type='submit'>Submit</Button>

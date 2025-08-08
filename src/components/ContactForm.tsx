@@ -2,11 +2,13 @@
 
 import { ChangeEvent, useState } from 'react';
 
+import FormGroup from '@/components/FormGroup';
 import TextField from '@/components/TextField';
 
 import { ContactFormData } from '@/model/types/ContactFormData';
 
 const initialContactFormData: ContactFormData = {
+	email: '',
 	firstName: '',
 	lastName: '',
 };
@@ -30,8 +32,14 @@ export default function () {
 
 	return (
 		<form className='flex flex-col gap-300' onSubmit={handleSubmit}>
-			<TextField id='first-name' label='First Name' name='firstName' onChange={handleTextFieldChange} value={contactFormData.firstName} required />
-			<TextField id='last-name' label='Last Name' name='lastName' onChange={handleTextFieldChange} value={contactFormData.lastName} />
+			<FormGroup>
+				<TextField id='first-name' label='First Name' name='firstName' onChange={handleTextFieldChange} type='text' value={contactFormData.firstName} required />
+				<TextField id='last-name' label='Last Name' name='lastName' onChange={handleTextFieldChange} type='text' value={contactFormData.lastName} required />
+			</FormGroup>
+
+			<FormGroup>
+				<TextField id='email' label='Email Address' name='email' onChange={handleTextFieldChange} type='email' value={contactFormData.email} required />
+			</FormGroup>
 		</form>
 	);
 }

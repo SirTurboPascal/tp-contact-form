@@ -50,12 +50,12 @@ export default function () {
 	return (
 		<form className='flex flex-col gap-300' onSubmit={handleSubmit}>
 			<FormGroup>
-				<TextField id='first-name' label='First Name' name='firstName' onChange={handleInputChange} type='text' value={contactFormData.firstName} required />
-				<TextField id='last-name' label='Last Name' name='lastName' onChange={handleInputChange} type='text' value={contactFormData.lastName} required />
+				<TextField id='first-name' enterKeyHint='next' label='First Name' name='firstName' onChange={handleInputChange} type='text' value={contactFormData.firstName} required />
+				<TextField id='last-name' enterKeyHint='next' label='Last Name' name='lastName' onChange={handleInputChange} type='text' value={contactFormData.lastName} required />
 			</FormGroup>
 
 			<FormGroup>
-				<TextField id='email' label='Email Address' name='email' onChange={handleInputChange} type='email' value={contactFormData.email} required />
+				<TextField id='email' enterKeyHint='next' label='Email Address' name='email' onChange={handleInputChange} type='email' value={contactFormData.email} required />
 			</FormGroup>
 
 			<FormGroup title='Query Type'>
@@ -64,7 +64,7 @@ export default function () {
 			</FormGroup>
 
 			<FormGroup>
-				<TextArea id='message' label='Message' name='message' onChange={handleInputChange} value={contactFormData.message} required />
+				<TextArea id='message' enterKeyHint='done' label='Message' name='message' onChange={handleInputChange} value={contactFormData.message} required />
 			</FormGroup>
 
 			<Button type='submit'>Submit</Button>

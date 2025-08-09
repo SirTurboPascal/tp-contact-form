@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"@tailwindcss/postcss": "^4.1.11",
+		"lodash": "^4.17.21",
 		"next": "15.4.6",
 		"postcss": "^8.5.6",
 		"react": "19.1.0",
@@ -17,6 +18,7 @@
 		"zod": "^4.0.15"
 	},
 	"devDependencies": {
+		"@types/lodash": "^4.17.20",
 		"@types/node": "^20",
 		"@types/react": "^19",
 		"@types/react-dom": "^19",

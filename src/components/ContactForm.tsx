@@ -4,6 +4,7 @@ import { eq } from 'lodash';
 import { ChangeEvent, FormEvent, useState } from 'react';
 
 import Button from '@/components/Button';
+import CheckBox from '@/components/CheckBox';
 import FormGroup from '@/components/FormGroup';
 import RadioButton from '@/components/RadioButton';
 import TextArea from '@/components/TextArea';
@@ -13,6 +14,8 @@ import { ContactFormSchema } from '@/model/schemas/ContactFormSchema';
 import { ContactFormData } from '@/model/types/ContactFormData';
 
 const initialContactFormData: ContactFormData = {
+	consent: false,
+
 	email: '',
 	firstName: '',
 	lastName: '',
@@ -24,12 +27,14 @@ export default function () {
 	const [contactFormData, setContactFormData] = useState<ContactFormData>(initialContactFormData);
 
 	const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-		const { name, value } = event.target;
+		const { target } = event;
+		const { name, type, value } = target;
 
+		const isCheckBox = target instanceof HTMLInputElement && eq(type, 'checkbox');
 		setContactFormData({
 			...contactFormData,
 
-			[name]: value,
+			[name]: isCheckBox ? target.checked : value,
 		});
 	};
 
@@ -39,7 +44,7 @@ export default function () {
 		try {
 			ContactFormSchema.parse(contactFormData);
 
-			console.log(contactFormData);
+			window.alert(contactFormData);
 		} catch (error) {
 			console.error(error);
 		} finally {
@@ -65,6 +70,10 @@ export default function () {
 
 			<FormGroup>
 				<TextArea id='message' enterKeyHint='done' label='Message' name='message' onChange={handleInputChange} value={contactFormData.message} required />
+			</FormGroup>
+
+			<FormGroup>
+				<CheckBox id='consent' checked={contactFormData.consent} label='I consent to being contacted by the team' name='consent' onChange={handleInputChange} />
 			</FormGroup>
 
 			<Button type='submit'>Submit</Button>

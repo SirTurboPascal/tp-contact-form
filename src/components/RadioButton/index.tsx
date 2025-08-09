@@ -21,11 +21,11 @@ export default function ({ checked, id, label, name, onChange, value }: Props) {
 
 	return (
 		<label className='border-grey-500 flex h-[50px] grow cursor-pointer items-center gap-100 rounded-lg border-[1px] px-300 hover:border-green-600' htmlFor={id}>
-			<input id={id} className='peer sr-only' checked={checked} name={name} onChange={onChange} type='radio' value={value} />
+			<input id={id} className='sr-only' checked={checked} name={name} onChange={onChange} type='radio' value={value} />
 
 			<Image alt='' src={src} unoptimized />
 
-			<span className='font-karla text-grey-900 flex gap-100 text-[16px] leading-[150%] antialiased'>{label}</span>
+			<span className='font-karla text-grey-900 flex gap-100 text-[16px] leading-[150%] antialiased select-none'>{label}</span>
 		</label>
 	);
 }

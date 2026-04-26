@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 export default function ({ children }: LayoutProps<'/'>) {
 	return (
 		<html className={`${karla.variable} bg-green-200`}>
-			<body>{children}</body>
+			<body className='py-400 md:py-1600'>{children}</body>
 		</html>
 	);
 }

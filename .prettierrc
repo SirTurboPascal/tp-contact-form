@@ -1,5 +1,6 @@
 {
 	"bracketSpacing": true,
+	"jsxSingleQuote": true,
 	"semi": true,
 	"singleQuote": true,
 	"useTabs": true,

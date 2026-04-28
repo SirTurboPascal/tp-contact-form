@@ -11,6 +11,7 @@
 	--breakpoint-lg: 1440px;
 
 	--color-*: initial;
+	--color-black: #000000;
 	--color-green-600: #0c7d69;
 	--color-green-200: #e0f1e8;
 	--color-grey-900: #2a4144;
@@ -30,4 +31,5 @@
 	--spacing-200: 16px;
 	--spacing-150: 12px;
 	--spacing-100: 8px;
+	--spacing-0: 0;
 }

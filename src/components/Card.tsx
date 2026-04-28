@@ -5,5 +5,5 @@ type CardProps = {
 };
 
 export default function ({ children }: CardProps) {
-	return <div className='mx-auto flex w-[343px] flex-col gap-400 rounded-2xl bg-white p-300 md:w-[690px] md:p-500 lg:w-[736px]'>{children}</div>;
+	return <div className='flex shrink-0 flex-col gap-400 rounded-2xl bg-white p-300 md:p-500'>{children}</div>;
 }

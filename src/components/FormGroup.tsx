@@ -5,5 +5,5 @@ type FormGroupProps = {
 };
 
 export default function ({ children }: FormGroupProps) {
-	return <div className='flex flex-col gap-200 md:flex-row'>{children}</div>;
+	return <div className='flex flex-col gap-300 md:flex-row'>{children}</div>;
 }

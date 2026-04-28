@@ -5,5 +5,5 @@ type CardHeaderProps = {
 };
 
 export default function ({ children }: CardHeaderProps) {
-	return <div className='flex shrink-0 items-center gap-100'>{children}</div>;
+	return <div className='flex shrink-0 items-center'>{children}</div>;
 }

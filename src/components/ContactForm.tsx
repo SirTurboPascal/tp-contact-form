@@ -1,5 +1,6 @@
 'use client';
 
+import { isNil } from 'lodash';
 import { ChangeEvent, SubmitEvent, useState } from 'react';
 import { z } from 'zod';
 
@@ -8,9 +9,10 @@ import Card from '@/components/Card';
 import CardHeader from '@/components/CardHeader';
 import Container from '@/components/Container';
 import FormGroup from '@/components/FormGroup';
-import TextField from './TextField';
+import TextField from '@/components/TextField';
 
 import { contactFormSchema } from '@/model/schemas/contact-form.schema';
+import { ContactFormErrors } from '@/model/types/contact-form-errors';
 import { ContactFormValues } from '@/model/types/contact-form-values';
 
 const initialState: ContactFormValues = {
@@ -20,6 +22,7 @@ const initialState: ContactFormValues = {
 };
 
 export default function () {
+	const [errors, setErrors] = useState<ContactFormErrors>();
 	const [values, setValues] = useState<ContactFormValues>(initialState);
 
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -35,13 +38,18 @@ export default function () {
 	const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		try {
-			contactFormSchema.parse(values);
-		} catch (error) {
-			if (error instanceof z.ZodError) {
-				console.error(error);
+		let contactFormErrors: ContactFormErrors;
+		const result = contactFormSchema.safeParse(values);
+
+		if (!result.success) {
+			const properties = z.treeifyError(result.error).properties;
+
+			if (!isNil(properties)) {
+				contactFormErrors = Object.fromEntries(Object.entries(properties));
 			}
 		}
+
+		setErrors(contactFormErrors);
 	};
 
 	return (
@@ -53,12 +61,12 @@ export default function () {
 
 				<form className='flex flex-col gap-300' onSubmit={handleSubmit}>
 					<FormGroup>
-						<TextField label='First Name' name='givenName' onChange={handleChange} value={values.givenName} required />
-						<TextField label='Last Name' name='familyName' onChange={handleChange} value={values.familyName} required />
+						<TextField errors={errors?.givenName?.errors} label='First Name' name='givenName' onChange={handleChange} value={values.givenName} required />
+						<TextField errors={errors?.familyName?.errors} label='Last Name' name='familyName' onChange={handleChange} value={values.familyName} required />
 					</FormGroup>
 
 					<FormGroup>
-						<TextField label='Email Address' name='email' onChange={handleChange} value={values.email} required />
+						<TextField errors={errors?.email?.errors} label='Email Address' name='email' onChange={handleChange} value={values.email} required />
 					</FormGroup>
 
 					<Button text='Submit' type='submit' />

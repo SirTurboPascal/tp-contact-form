@@ -49,16 +49,18 @@ export default function () {
 	const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
 		event.preventDefault();
 
-		let contactFormErrors: ContactFormErrors;
 		const result = contactFormSchema.safeParse(values);
+		if (result.success) {
+			window.alert(`Well done! You would have submitted these values: ${JSON.stringify(values)}`);
 
-		if (!result.success) {
-			const properties = z.treeifyError(result.error).properties;
+			setErrors({});
+			setValues(initialState);
 
-			if (!isNil(properties)) contactFormErrors = Object.fromEntries(Object.entries(properties));
+			return;
 		}
 
-		setErrors(contactFormErrors);
+		const properties = z.treeifyError(result.error).properties;
+		if (!isNil(properties)) setErrors(Object.fromEntries(Object.entries(properties)));
 	};
 
 	return (
@@ -79,7 +81,7 @@ export default function () {
 					</FormGroup>
 
 					<RadioButtonGroup label='Query Type' name='queryType' onChange={handleChange} options={radioButtonGroupOptions} value={values.queryType} required />
-					<Textarea errors={errors?.message?.errors} label='Message' name='message' onChange={handleChange} required />
+					<Textarea errors={errors?.message?.errors} label='Message' name='message' onChange={handleChange} value={values.message} required />
 					<CheckBox checked={values.consent} errors={errors?.consent?.errors} label='I consent to being contacted by the team' name='consent' onChange={handleChange} required />
 
 					<Button text='Submit' type='submit' />

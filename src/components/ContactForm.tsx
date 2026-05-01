@@ -7,6 +7,7 @@ import { z } from 'zod';
 import Button from '@/components/Button';
 import Card from '@/components/Card';
 import CardHeader from '@/components/CardHeader';
+import CheckBox from '@/components/CheckBox';
 import Container from '@/components/Container';
 import FormGroup from '@/components/FormGroup';
 import RadioButtonGroup from '@/components/RadioButtonGroup';
@@ -19,6 +20,8 @@ import { ContactFormValues } from '@/model/types/contact-form-values';
 import { QueryTypeValues } from '@/model/types/query-type-values';
 
 const initialState: ContactFormValues = {
+	consent: false,
+
 	email: '',
 	familyName: '',
 	givenName: '',
@@ -39,7 +42,8 @@ export default function () {
 	const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const { name, value } = event.target;
 
-		setValues({ ...values, [name]: value });
+		const newValue = event.target instanceof HTMLInputElement && event.target.type === 'checkbox' ? event.target.checked : value;
+		setValues({ ...values, [name]: newValue });
 	};
 
 	const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
@@ -64,7 +68,7 @@ export default function () {
 					<h1 className='font-karla cursor-default text-[32px]/[100%] font-bold tracking-[-1px] select-none'>Contact Us</h1>
 				</CardHeader>
 
-				<form className='flex flex-col gap-300' onSubmit={handleSubmit}>
+				<form className='flex flex-col gap-300' onSubmit={handleSubmit} noValidate>
 					<FormGroup>
 						<TextField errors={errors?.givenName?.errors} label='First Name' name='givenName' onChange={handleChange} value={values.givenName} required />
 						<TextField errors={errors?.familyName?.errors} label='Last Name' name='familyName' onChange={handleChange} value={values.familyName} required />
@@ -76,6 +80,8 @@ export default function () {
 
 					<RadioButtonGroup label='Query Type' name='queryType' onChange={handleChange} options={radioButtonGroupOptions} value={values.queryType} required />
 					<Textarea errors={errors?.message?.errors} label='Message' name='message' onChange={handleChange} required />
+					<CheckBox checked={values.consent} errors={errors?.consent?.errors} label='I consent to being contacted by the team' name='consent' onChange={handleChange} required />
+
 					<Button text='Submit' type='submit' />
 				</form>
 			</Card>

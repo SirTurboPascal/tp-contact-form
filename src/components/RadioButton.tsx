@@ -22,7 +22,7 @@ export default function ({ checked, label, name, onChange, required, value }: Ra
 	return (
 		<label className={className} htmlFor={id}>
 			<input id={id} className='sr-only' checked={checked} name={name} onChange={onChange} type='radio' value={value} required={required} />
-			<Image alt='' src={checked ? radioCheckedImage : radioUncheckedImage} unoptimized />
+			<Image className='select-none' alt='' src={checked ? radioCheckedImage : radioUncheckedImage} unoptimized />
 
 			<span className='font-karla text-grey-900 grow text-[18px]/[150%] antialiased select-none'>{label}</span>
 		</label>

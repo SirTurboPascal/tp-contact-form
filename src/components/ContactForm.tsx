@@ -9,16 +9,24 @@ import Card from '@/components/Card';
 import CardHeader from '@/components/CardHeader';
 import Container from '@/components/Container';
 import FormGroup from '@/components/FormGroup';
+import RadioButtonGroup from '@/components/RadioButtonGroup';
 import TextField from '@/components/TextField';
 
 import { contactFormSchema } from '@/model/schemas/contact-form.schema';
 import { ContactFormErrors } from '@/model/types/contact-form-errors';
 import { ContactFormValues } from '@/model/types/contact-form-values';
+import { QueryTypeValues } from '@/model/types/query-type-values';
 
 const initialState: ContactFormValues = {
 	email: '',
 	familyName: '',
 	givenName: '',
+	queryType: 'general-enquiry',
+};
+
+const radioButtonGroupOptions: Record<QueryTypeValues, string> = {
+	'general-enquiry': 'General Enquiry',
+	'support-request': 'Support Request',
 };
 
 export default function () {
@@ -28,11 +36,7 @@ export default function () {
 	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 
-		setValues({
-			...values,
-
-			[name]: value,
-		});
+		setValues({ ...values, [name]: value });
 	};
 
 	const handleSubmit = (event: SubmitEvent<HTMLFormElement>) => {
@@ -44,9 +48,7 @@ export default function () {
 		if (!result.success) {
 			const properties = z.treeifyError(result.error).properties;
 
-			if (!isNil(properties)) {
-				contactFormErrors = Object.fromEntries(Object.entries(properties));
-			}
+			if (!isNil(properties)) contactFormErrors = Object.fromEntries(Object.entries(properties));
 		}
 
 		setErrors(contactFormErrors);
@@ -69,6 +71,7 @@ export default function () {
 						<TextField errors={errors?.email?.errors} label='Email Address' name='email' onChange={handleChange} value={values.email} required />
 					</FormGroup>
 
+					<RadioButtonGroup label='Query Type' name='queryType' onChange={handleChange} options={radioButtonGroupOptions} value={values.queryType} required />
 					<Button text='Submit' type='submit' />
 				</form>
 			</Card>

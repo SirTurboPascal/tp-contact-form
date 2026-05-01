@@ -12,7 +12,7 @@ type RadioButtonGroupProps = {
 export default function ({ label, name, onChange, options, required, value }: RadioButtonGroupProps) {
 	return (
 		<div className='flex shrink-0 flex-col gap-100'>
-			<span className='font-karla text-grey-900 shrink-0 text-[16px]/[150%] antialiased select-none'>
+			<span className='font-karla text-grey-900 shrink-0 self-start text-[16px]/[150%] antialiased select-none'>
 				<>{label}</>
 
 				{required && <span className='ml-100 font-bold text-green-600'>*</span>}

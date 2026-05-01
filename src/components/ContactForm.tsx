@@ -11,6 +11,7 @@ import Container from '@/components/Container';
 import FormGroup from '@/components/FormGroup';
 import RadioButtonGroup from '@/components/RadioButtonGroup';
 import TextField from '@/components/TextField';
+import Textarea from '@/components/Textarea';
 
 import { contactFormSchema } from '@/model/schemas/contact-form.schema';
 import { ContactFormErrors } from '@/model/types/contact-form-errors';
@@ -21,6 +22,8 @@ const initialState: ContactFormValues = {
 	email: '',
 	familyName: '',
 	givenName: '',
+	message: '',
+
 	queryType: 'general-enquiry',
 };
 
@@ -33,7 +36,7 @@ export default function () {
 	const [errors, setErrors] = useState<ContactFormErrors>();
 	const [values, setValues] = useState<ContactFormValues>(initialState);
 
-	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
 		const { name, value } = event.target;
 
 		setValues({ ...values, [name]: value });
@@ -72,6 +75,7 @@ export default function () {
 					</FormGroup>
 
 					<RadioButtonGroup label='Query Type' name='queryType' onChange={handleChange} options={radioButtonGroupOptions} value={values.queryType} required />
+					<Textarea errors={errors?.message?.errors} label='Message' name='message' onChange={handleChange} required />
 					<Button text='Submit' type='submit' />
 				</form>
 			</Card>
